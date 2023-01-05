@@ -27,8 +27,9 @@ class Game:
         # FPS (frames per second) controller
         self.fps = pygame.time.Clock()   
 
-        self.score = 0
+        self.msg_font = pygame.font.SysFont("Consolas",12)
 
+        self.score = 0
         self.is_game_over = False
 
     def run(self):
@@ -53,6 +54,8 @@ class Game:
             pygame.display.update()
             self.fps.tick(TICK)
 
+    def message_display(self, text: str):
+        msg_font = self.msg_font
 
     def show_score(self, color, font, size):
         score_font = pygame.font.SysFont(font, size)

@@ -17,15 +17,19 @@ class SnakeAI:
     def get_direction(self):
         return self.direction
     def move(self, direction: int):
+
         self.set_direction(direction)
+
+        dir_temp = Direction(self.direction)
+
         #moving snake
-        if self.direction == Direction.UP:
+        if dir_temp == Direction.UP:
             self.head[1] -= self.scale
-        if self.direction == Direction.DOWN:
+        if dir_temp == Direction.DOWN:
             self.head[1] += self.scale
-        if self.direction == Direction.LEFT:
+        if dir_temp == Direction.LEFT:
             self.head[0] -= self.scale
-        if self.direction == Direction.RIGHT:
+        if dir_temp == Direction.RIGHT:
             self.head[0] += self.scale
 
     def update(self, got_fruit=False):

@@ -42,6 +42,7 @@ class GameAI:
         self.direction = Direction.RIGHT
         self.score = 0
         self.is_game_over = False
+        self.iterations = 0
 
 
     def user_input(self):
@@ -69,8 +70,33 @@ class GameAI:
             self.direction = Direction.RIGHT
 
         return self.direction
-    def play_step(self):
-        pass
+
+    def play_step(self, action: int):
+
+        self.iterations += 1
+
+        self.snake.move(direction=action)
+        got_fruit = self.check_fruit()
+        self.snake.update(got_fruit=got_fruit)
+        game_over = self.check_collision()
+
+        # draw everything
+        self.game_window.fill(self.cpalette["black"])
+        for pos in self.snake.body:
+            pygame.draw.rect(self.game_window, self.snake.color,
+                             pygame.Rect(pos[0], pos[1], self.scale, self.scale))
+        pygame.draw.rect(self.game_window, self.fruit.color,
+                         pygame.Rect(self.fruit.position[0], self.fruit.position[1],
+                                     self.scale, self.scale))
+
+        self.show_score(self.cpalette['green'], 'consolas', 37)
+
+        pygame.display.update()
+        self.fps.tick(TICK)
+
+        return self.score, game_over
+
+
 
     def run(self):
         while not self.is_game_over:
@@ -132,9 +158,11 @@ class GameAI:
 
     def check_collision(self):
         if self.snake.head[0] < 0 or self.snake.head[0] > self.game_window.get_size()[0]:
-            self.game_over()
-        if self.snake.head[1] < 0 or self.snake.head[1] > self.game_window.get_size()[1]:
-            self.game_over()
+            return True
+        elif self.snake.head[1] < 0 or self.snake.head[1] > self.game_window.get_size()[1]:
+            return True
+        else:
+            return False
 
     def check_fruit(self) -> bool:
         if self.snake.head[0] == self.fruit.position[0] and \
@@ -158,7 +186,14 @@ class GameAI:
 
 if __name__ == "__main__":
 
-
-
     g = GameAI()
-    g.run()
+
+    game_over = False
+    score = 0
+
+    while not game_over:
+        # get action
+        action = random.randrange(1, len(Direction) + 1)
+        score, game_over = g.play_step(action)
+    print("Final score ",score, " after ",g.iterations," steps.")
+

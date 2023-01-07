@@ -19,12 +19,6 @@ class GameAI:
         self.cpalette = self.cp_object.get_palette()
         self.reset()
 
-    # reset
-    # reward
-    # play(action) -> direction
-    # game_iteration
-    # is_collision
-
     def reset(self):
         self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK)
         self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
@@ -152,20 +146,4 @@ class GameAI:
     def random_direction(self) -> int:
         direction = random.randrange(1,len(Direction)+1)
         return direction
-
-
-if __name__ == "__main__":
-
-    g = GameAI()
-    no_episodes = 10
-
-    for no_ep in range(no_episodes):
-        g.reset()
-        game_over = False
-        score = 0
-        while not game_over:
-            # get action
-            action = random.randrange(1, len(Direction) + 1)
-            score, game_over = g.play_step(action)
-        print("Final score ",score, " after ",g.iterations," steps.")
 

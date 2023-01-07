@@ -1,6 +1,7 @@
 import pygame
 import random
 from Direction import Direction
+import numpy as np
 
 class SnakeAI:
     def __init__(self, color: pygame.Color, tick: int, scale=10, x=100, y=50):
@@ -10,6 +11,9 @@ class SnakeAI:
         self.speed = tick
         #
         self.reset(x=x,y=y,dir='R')
+
+    def get_head(self):
+        return self.body[0]
 
     def set_direction(self,direction: int):
         self.direction = direction
@@ -31,6 +35,11 @@ class SnakeAI:
             self.head[0] -= self.scale
         if dir_temp == Direction.RIGHT:
             self.head[0] += self.scale
+
+    def new_move(self,action):
+        clock_wise = [Direction.RIGHT,Direction.DOWN,Direction.LEFT,Direction, Direction.UP]
+        idx = clock_wise[self.direction]
+
 
     def cut_tail(self):
         self.body.pop()

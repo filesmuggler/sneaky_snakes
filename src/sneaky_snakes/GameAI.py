@@ -78,7 +78,7 @@ class GameAI:
         self.snake.move(direction=action)
         got_fruit = self.check_fruit()
         self.snake.update(got_fruit=got_fruit)
-        game_over = self.check_collision()
+        game_over = self.is_collision()
 
         # draw everything
         self.game_window.fill(self.cpalette["black"])
@@ -105,7 +105,7 @@ class GameAI:
             
             got_fruit = self.check_fruit()
             self.snake.update(got_fruit=got_fruit)
-            self.check_collision()
+            self.is_collision()
 
             # draw everything
             self.game_window.fill(self.cpalette["black"])
@@ -156,7 +156,7 @@ class GameAI:
         new_position = self.fruit.random_position()
         self.fruit.set_position(new_position)
 
-    def check_collision(self):
+    def is_collision(self):
         if self.snake.head[0] < 0 or self.snake.head[0] > self.game_window.get_size()[0]:
             return True
         elif self.snake.head[1] < 0 or self.snake.head[1] > self.game_window.get_size()[1]:
@@ -187,13 +187,15 @@ class GameAI:
 if __name__ == "__main__":
 
     g = GameAI()
+    no_episodes = 10
 
-    game_over = False
-    score = 0
-
-    while not game_over:
-        # get action
-        action = random.randrange(1, len(Direction) + 1)
-        score, game_over = g.play_step(action)
-    print("Final score ",score, " after ",g.iterations," steps.")
+    for no_ep in range(no_episodes):
+        g.reset()
+        game_over = False
+        score = 0
+        while not game_over:
+            # get action
+            action = random.randrange(1, len(Direction) + 1)
+            score, game_over = g.play_step(action)
+        print("Final score ",score, " after ",g.iterations," steps.")
 

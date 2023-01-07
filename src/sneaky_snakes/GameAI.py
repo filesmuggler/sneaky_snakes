@@ -41,7 +41,6 @@ class GameAI:
 
         self.direction = Direction.RIGHT
         self.score = 0
-        self.is_game_over = False
         self.iterations = 0
 
 
@@ -73,14 +72,32 @@ class GameAI:
 
     def play_step(self, action: int):
 
+        # 1. setup
         self.iterations += 1
+        reward = 0
+        game_over = False
 
+        # 2. move snake
         self.snake.move(direction=action)
-        got_fruit = self.check_fruit()
-        self.snake.update(got_fruit=got_fruit)
-        game_over = self.is_collision()
 
-        # draw everything
+        # 3. check if got fruit
+        if self.check_fruit():
+            reward = 10
+            self.score += 10
+            self.snake.grow_body()
+            self.spawn_fruit()
+        else:
+            self.snake.grow_body()
+            self.snake.cut_tail()
+
+        # 4. check if collision or too long searching for food
+        if self.is_collision() or self.iterations > 100*len(self.snake.body):
+            reward = -10
+            game_over = True
+            # break the function and return immediately to the main loop
+            return reward, self.score, game_over
+
+        # 5. draw everything
         self.game_window.fill(self.cpalette["black"])
         for pos in self.snake.body:
             pygame.draw.rect(self.game_window, self.snake.color,
@@ -89,37 +106,15 @@ class GameAI:
                          pygame.Rect(self.fruit.position[0], self.fruit.position[1],
                                      self.scale, self.scale))
 
+        # 6. show score
         self.show_score(self.cpalette['green'], 'consolas', 37)
 
+        # 7. update pygame window
         pygame.display.update()
         self.fps.tick(TICK)
 
-        return self.score, game_over
-
-
-
-    def run(self):
-        while not self.is_game_over:
-            direction = self.user_input()
-            self.snake.move(direction=direction)
-            
-            got_fruit = self.check_fruit()
-            self.snake.update(got_fruit=got_fruit)
-            self.is_collision()
-
-            # draw everything
-            self.game_window.fill(self.cpalette["black"])
-            for pos in self.snake.body:
-                pygame.draw.rect(self.game_window, self.snake.color, 
-                                 pygame.Rect(pos[0],pos[1],self.scale,self.scale))
-            pygame.draw.rect(self.game_window, self.fruit.color,
-                             pygame.Rect(self.fruit.position[0],self.fruit.position[1],
-                                         self.scale, self.scale))
-
-            self.show_score(self.cpalette['green'], 'consolas', 37)
-
-            pygame.display.update()
-            self.fps.tick(TICK)
+        # 8. return
+        return reward, self.score, game_over
 
     def show_score(self, color, font, size):
         score_font = pygame.font.SysFont(font, size)
@@ -130,30 +125,8 @@ class GameAI:
         
         self.game_window.blit(score_surface, score_rect)
 
-    def game_over(self):
-
-        score_font = pygame.font.SysFont("consolas", 21)
-        
-        game_over_surface = score_font.render('Press any key to play again or Q to quit', True, self.cpalette["green"])
-        
-        game_over_rect = game_over_surface.get_rect(midtop=(SCREEN_WIDTH/2,300))
-        
-        self.game_window.blit(game_over_surface, game_over_rect)
-        pygame.display.flip()
-
-        pygame.event.clear()
-        event = pygame.event.wait()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:
-                exit()
-            else:
-                self.spawn_fruit()
-                self.direction = self.random_direction()
-                self.snake.reset(x=100,y=50, dir=self.direction)
-                self.score = 0
-
     def spawn_fruit(self):
-        new_position = self.fruit.random_position()
+        new_position = self.random_position()
         self.fruit.set_position(new_position)
 
     def is_collision(self):
@@ -167,8 +140,6 @@ class GameAI:
     def check_fruit(self) -> bool:
         if self.snake.head[0] == self.fruit.position[0] and \
         self.snake.head[1] == self.fruit.position[1]:
-            self.score += 10
-            self.spawn_fruit()
             return True
         else:
             return False
@@ -181,7 +152,6 @@ class GameAI:
     def random_direction(self) -> int:
         direction = random.randrange(1,len(Direction)+1)
         return direction
-
 
 
 if __name__ == "__main__":

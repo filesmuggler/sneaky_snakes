@@ -15,7 +15,7 @@ def train():
         # Run episode until it's over
         while not game_over:
             action = random.randrange(1,len(Direction)+1)
-            step_score, game_over = g.play_step(action)
+            reward, step_score, game_over = g.play_step(action)
             episode_score += step_score
         print("Final score after the ",no_ep+1," episode: ",episode_score)
 

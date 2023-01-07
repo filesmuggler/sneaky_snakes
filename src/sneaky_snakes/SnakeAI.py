@@ -32,10 +32,11 @@ class SnakeAI:
         if dir_temp == Direction.RIGHT:
             self.head[0] += self.scale
 
-    def update(self, got_fruit=False):
+    def cut_tail(self):
+        self.body.pop()
+
+    def grow_body(self):
         self.body.insert(0, list(self.head))
-        if not got_fruit:
-            self.body.pop()
 
     def reset(self, x:int, y:int, dir: int):
         self.head = [x,y]

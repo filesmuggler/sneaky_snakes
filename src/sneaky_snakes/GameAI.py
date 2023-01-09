@@ -6,6 +6,7 @@ from Fruit import Fruit
 from Table import Table
 from utilities import Direction, ColorPalette, Point
 
+#TODO: remove constants from files other than train.py
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 TICK = 15
@@ -20,7 +21,7 @@ class GameAI:
         self.reset()
 
     def reset(self):
-        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK)
+        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT)
         self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
         self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
         self.scale = SCALE

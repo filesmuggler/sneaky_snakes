@@ -5,6 +5,7 @@ from collections import deque
 from GameAI import GameAI
 from utilities import Direction, Point
 
+#TODO: remove constants from files other than train.py
 MAX_MEM = 100_000
 BATCH_SIZE = 100
 LR = 0.001

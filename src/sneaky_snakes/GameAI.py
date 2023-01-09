@@ -4,7 +4,7 @@ import random
 from SnakeAI import SnakeAI
 from Fruit import Fruit
 from Table import Table
-from utilities import Direction, ColorPalette
+from utilities import Direction, ColorPalette, Point
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -13,6 +13,8 @@ SCALE = 10
 
 class GameAI:
     def __init__(self):
+        self.window_height = SCREEN_HEIGHT
+        self.window_width = SCREEN_WIDTH
         self.cp_object = ColorPalette()
         self.cpalette = self.cp_object.get_palette()
         self.reset()
@@ -62,7 +64,7 @@ class GameAI:
 
         return self.direction
 
-    def play_step(self, action: int):
+    def play_step(self, action: Direction):
 
         # 1. setup
         self.iterations += 1
@@ -83,7 +85,7 @@ class GameAI:
             self.snake.cut_tail()
 
         # 4. check if collision or too long searching for food
-        if self.is_collision() or self.iterations > 100*len(self.snake.body):
+        if self.is_collision(self.snake.get_head()) or self.iterations > 100*len(self.snake.body):
             reward = -10
             game_over = True
             # break the function and return immediately to the main loop
@@ -121,10 +123,10 @@ class GameAI:
         new_position = self.random_position()
         self.fruit.set_position(new_position)
 
-    def is_collision(self):
-        if self.snake.head[0] < 0 or self.snake.head[0] > self.game_window.get_size()[0]:
+    def is_collision(self,pt:Point):
+        if pt.x < 0 or pt.x > self.game_window.get_size()[0]:
             return True
-        elif self.snake.head[1] < 0 or self.snake.head[1] > self.game_window.get_size()[1]:
+        elif pt.y < 0 or pt.y > self.game_window.get_size()[1]:
             return True
         else:
             return False

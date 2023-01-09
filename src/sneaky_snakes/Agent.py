@@ -46,39 +46,84 @@ class Agent:
         Returns:
             state vector with 11 int values
         '''
-        head = environment.snake.get_head()
 
-        #TODO: calculating state
-        state = []
+        # Get current direction
+        dir_left, dir_up, dir_right, dir_down = self.get_current_direction(environment=environment)
+        # Get surround information
+        pt_left, pt_up, pt_right, pt_down = self.get_surround(environment)
+        # Check if food nearby
+        food_left, food_up, food_right, food_down = self.get_food_nearby(environment)
+
+        danger_left = (dir_down and environment.is_collision(pt_right)) or (
+                    dir_up and environment.is_collision(pt_left)) or \
+                      (dir_right and environment.is_collision(pt_up)) or (
+                                  dir_left and environment.is_collision(pt_down))
+
+        danger_straight = (dir_down and environment.is_collision(pt_down)) or (
+                    dir_up and environment.is_collision(pt_up)) or \
+                      (dir_right and environment.is_collision(pt_right)) or (
+                                  dir_left and environment.is_collision(pt_left))
+
+        danger_right = (dir_down and environment.is_collision(pt_left)) or (
+                    dir_up and environment.is_collision(pt_right)) or \
+                      (dir_right and environment.is_collision(pt_down)) or (
+                                  dir_left and environment.is_collision(pt_up))
+
+        state = [danger_left,danger_straight,danger_right,
+                 dir_left,dir_up,dir_right,dir_down,
+                 food_left,food_up,food_right,food_down]
         return np.array(state,dtype=int)
 
 
-    def get_current_direction(self,environment: GameAI):
+    def get_current_direction(self,environment: GameAI) -> list[bool]:
         dir_left = environment.direction == Direction.LEFT
         dir_up = environment.direction == Direction.UP
         dir_right = environment.direction == Direction.RIGHT
         dir_down = environment.direction == Direction.DOWN
         return [dir_left,dir_up,dir_right,dir_down]
 
-    def get_surround(self, pt: Point, scale: int):
+    def get_food_nearby(self,environment: GameAI) -> list[bool]:
+        '''
+            Checks food proximity in clockwise direction starting from LEFT
+        Args:
+            environment:
+
+        Returns:
+
+        '''
+
+        pt = environment.snake.get_head()
+
+        # Check if food nearby
+        # TODO: quite limited perception -> widen the perception field
+        food_left = (environment.fruit.get_position()[0] < pt.x)
+        food_up = (environment.fruit.get_position()[0] > pt.x)
+        food_right = (environment.fruit.get_position()[1] < pt.y)
+        food_down = (environment.fruit.get_position()[1] > pt.y)
+
+        return [food_left,food_up,food_right,food_down]
+
+    def get_surround(self, environment: GameAI) -> list[Point]:
+        '''
+            Calculates points in the clockwise direction starting from LEFT
+        Args:
+            environment:
+
+        Returns:
+
+        '''
+        scale = environment.scale
+        pt = environment.snake.get_head()
+
+        # Get coordinates of the points around head
         pt_left, pt_up, pt_right, pt_down = Point(pt.x - scale,pt.y), Point(pt.x,pt.y-scale), \
                                                     Point(pt.x+scale,pt.y), Point(pt.x,pt.y+scale)
 
         return [pt_left, pt_up, pt_right, pt_down]
 
-    def get_danger(self,environment: GameAI, direction: Direction):
-        # Get current direction
-        dir_left, dir_up, dir_right, dir_down = self.get_current_direction(environment=environment)
-
-        # Get surrounding points
-        snake_head = environment.snake.get_head()
-        scale = environment.scale
-        pt_left, pt_up, pt_right, pt_down = self.get_surround(snake_head,scale)
 
 
 
-
-        return False
     def get_action(self, state):
         '''
         TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)

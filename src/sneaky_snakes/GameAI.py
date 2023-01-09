@@ -1,12 +1,10 @@
 import pygame
-import time
 import random
 
-from utilities import ColorPalette
 from SnakeAI import SnakeAI
 from Fruit import Fruit
 from Table import Table
-from Direction import Direction
+from utilities import Direction, ColorPalette
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600

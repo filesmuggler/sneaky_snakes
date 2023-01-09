@@ -37,3 +37,16 @@ class ColorPalette:
                 str(self.palette[color_key].r) + ", "+\
                 str(self.palette[color_key].g) + ", "+\
                 str(self.palette[color_key].b) + ")")
+
+class Point:
+    def __init__(self,x:int,y:int):
+        self.x = x
+        self.y = y
+
+from enum import Enum
+class Direction(Enum):
+    RIGHT = 1
+    DOWN = 2
+    LEFT = 3
+    UP = 4
+

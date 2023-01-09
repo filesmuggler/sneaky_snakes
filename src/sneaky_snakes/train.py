@@ -2,7 +2,7 @@ import random
 import pygame
 from Agent import Agent
 from GameAI import GameAI
-from Direction import Direction
+from utilities import Direction
 
 MAX_MEM = 100_000
 BATCH_SIZE = 100

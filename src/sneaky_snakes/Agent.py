@@ -3,7 +3,7 @@ import random
 import numpy as np
 from collections import deque
 from GameAI import GameAI
-from Direction import Direction
+from utilities import Direction, Point
 
 MAX_MEM = 100_000
 BATCH_SIZE = 100

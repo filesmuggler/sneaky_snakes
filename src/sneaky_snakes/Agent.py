@@ -52,6 +52,51 @@ class Agent:
         state = []
         return np.array(state,dtype=int)
 
+
+    def get_current_direction(self,environment: GameAI):
+        dir_left = environment.direction == Direction.LEFT
+        dir_up = environment.direction == Direction.UP
+        dir_right = environment.direction == Direction.RIGHT
+        dir_down = environment.direction == Direction.DOWN
+        return [dir_left,dir_up,dir_right,dir_down]
+
+    def get_surround(self, pt: Point, scale: int):
+        pt_left, pt_up, pt_right, pt_down = Point(pt.x - scale,pt.y), Point(pt.x,pt.y-scale), \
+                                                    Point(pt.x+scale,pt.y), Point(pt.x,pt.y+scale)
+
+        return [pt_left, pt_up, pt_right, pt_down]
+
+    def get_danger(self,environment: GameAI, direction: Direction):
+        # Get current direction
+        dir_left, dir_up, dir_right, dir_down = self.get_current_direction(environment=environment)
+
+        # Get surrounding points
+        snake_head = environment.snake.get_head()
+        scale = environment.scale
+        pt_left, pt_up, pt_right, pt_down = self.get_surround(snake_head,scale)
+
+
+
+
+        return False
+    def get_action(self, state):
+        '''
+        TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
+        '''
+        self.epsilon = 80 - self.no_games
+        final_move = [0,0,0]
+        #if random.randint(0, 200) < self.epsilon:
+        #    move = random.randint(0, 2)
+        #    final_move[move] = 1
+        #else:
+            #state0 = torch.tensor(state, dtype=torch.float)
+            #prediction = self.model(state0)
+            #move = torch.argmax(prediction).item()
+            #final_move[move] = 1
+
+        return final_move
+
+
     def save_to_memory(self, current_state: np.array, action, reward, next_state, done):
         '''
         Saves set of states, action, reward and status of the iteration to the memory
@@ -81,20 +126,4 @@ class Agent:
         # TODO: train short memory
         pass
 
-    def get_action(self, state):
-        '''
-        TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
-        '''
-        self.epsilon = 80 - self.no_games
-        final_move = [0,0,0]
-        #if random.randint(0, 200) < self.epsilon:
-        #    move = random.randint(0, 2)
-        #    final_move[move] = 1
-        #else:
-            #state0 = torch.tensor(state, dtype=torch.float)
-            #prediction = self.model(state0)
-            #move = torch.argmax(prediction).item()
-            #final_move[move] = 1
-
-        return final_move
 

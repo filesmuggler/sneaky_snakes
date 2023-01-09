@@ -1,6 +1,6 @@
 import pygame
 import random
-from utilities import Direction
+from utilities import Direction, Point
 import numpy as np
 
 class SnakeAI:
@@ -23,13 +23,13 @@ class SnakeAI:
         #
         self.reset(x=x,y=y,dir=direction)
 
-    def get_head(self):
+    def get_head(self) -> Point:
         '''
         Returns head position of the snake
         Returns:
             Returns tuple of (x,y) coordinates
         '''
-        return self.body[0]
+        return Point(self.body[0][0],self.body[0][1])
 
     def set_direction(self,direction: Direction):
         '''

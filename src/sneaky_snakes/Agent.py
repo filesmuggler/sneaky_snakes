@@ -38,7 +38,7 @@ class Agent:
         _________________
         |     ########  |
         |               |
-        | @             |
+        | 🍎            |
         |_______________|
         Args:
             environment: game environment

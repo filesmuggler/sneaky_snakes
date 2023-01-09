@@ -1,7 +1,19 @@
 import pygame
 
 class Snake:
+    '''
+    Snake class
+    '''
     def __init__(self, color: pygame.Color, tick: int, scale=10, x=100, y=50):
+        """
+        Snake constructor
+        Args:
+            color: snake color
+            tick: snake speed on the board
+            scale: how big the snake should be
+            x: snake head initial position X
+            y: snake head initial position Y
+        """
         self.scale = scale
         self.color = color
         self.speed = tick

@@ -1,6 +1,4 @@
 import pygame
-import time
-
 from utilities import ColorPalette
 from Snake import Snake
 from Fruit import Fruit
@@ -12,7 +10,19 @@ TICK = 15
 SCALE = 10
 
 class Game:
+    '''
+    Main game class
+    '''
     def __init__(self, snake: Snake, fruit: Fruit, table: Table, palette: ColorPalette, scale: int):
+        '''
+        Constructor method
+        Args:
+            snake: user controlled game agent
+            fruit: goal
+            table: settings for the background
+            palette: set of colors
+            scale: how thick the table grid should be
+        '''
         self.snake = snake
         self.fruit = fruit
         self.table = table
@@ -27,31 +37,48 @@ class Game:
         # FPS (frames per second) controller
         self.fps = pygame.time.Clock()   
 
+        # Game parameters
         self.score = 0
-
         self.is_game_over = False
 
-    def run(self):
+    def run(self) -> None:
+        '''
+        Main game loop
+        Returns:
+        None
+        '''
         while not self.is_game_over:
+            # get user input
+            # TODO: move user input to the game itself; add move() method for snake
             self.snake.user_input()
-            
+
+            # check if fruit got picked during movement
             got_fruit = self.check_fruit()
+
+            # update snake state
             self.snake.update(got_fruit=got_fruit)
+            # check if snake did not hit the wall
             self.check_collision()
 
-            # draw everything
+            # draw background
             self.game_window.fill(self.palette.get_palette()["black"])
+            # draw snake
             for pos in self.snake.body:
                 pygame.draw.rect(self.game_window, self.snake.color, 
                                  pygame.Rect(pos[0],pos[1],self.scale,self.scale))
+            # draw fruit
             pygame.draw.rect(self.game_window, self.fruit.color,
                              pygame.Rect(self.fruit.position[0],self.fruit.position[1],
                                          self.scale, self.scale))
 
+            # draw text with score
             self.show_score(self.palette.get_palette()['green'], 'consolas', 37)
 
+            # update pygame mechanism
             pygame.display.update()
             self.fps.tick(TICK)
+
+        return None
 
 
     def show_score(self, color, font, size):

@@ -1,5 +1,8 @@
 import pygame
 import logging
+from enum import Enum
+import matplotlib.pyplot as plt
+from IPython import display
 
 class ColorPalette:
     def __init__(self):
@@ -43,10 +46,26 @@ class Point:
         self.x = x
         self.y = y
 
-from enum import Enum
 class Direction(Enum):
     RIGHT = 1
     DOWN = 2
     LEFT = 3
     UP = 4
 
+class Plotter:
+    def __init__(self):
+        plt.ion()
+    def plot(self,scores, mean_scores):
+        display.clear_output(wait=True)
+        display.display(plt.gcf())
+        plt.clf()
+        plt.title('Training...')
+        plt.xlabel('Number of Games')
+        plt.ylabel('Score')
+        plt.plot(scores)
+        plt.plot(mean_scores)
+        plt.ylim(ymin=0)
+        plt.text(len(scores)-1, scores[-1], str(scores[-1]))
+        plt.text(len(mean_scores)-1, mean_scores[-1], str(mean_scores[-1]))
+        plt.show(block=False)
+        plt.pause(.1)

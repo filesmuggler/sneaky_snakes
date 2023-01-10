@@ -4,6 +4,7 @@ import numpy as np
 from collections import deque
 from GameAI import GameAI
 from utilities import Direction, Point
+from models import Linear_Net, DQN_Trainer
 
 #TODO: remove constants from files other than train.py
 MAX_MEM = 100_000
@@ -27,7 +28,8 @@ class Agent:
         self.epsilon = 0
         self.gamma = 0.9
         self.memory = deque(maxlen=self.max_mem)
-        #TODO: model and trainer
+        self.model = Linear_Net(11, 256, 3)
+        self.trainer = DQN_Trainer(self.model,lr=LR,gamma=self.gamma)
 
     def get_state(self, environment: GameAI) -> np.array:
         '''
@@ -123,22 +125,20 @@ class Agent:
         return [pt_left, pt_up, pt_right, pt_down]
 
 
-
-
     def get_action(self, state):
         '''
         TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
         '''
         self.epsilon = 80 - self.no_games
         final_move = [0,0,0]
-        #if random.randint(0, 200) < self.epsilon:
-        #    move = random.randint(0, 2)
-        #    final_move[move] = 1
-        #else:
-            #state0 = torch.tensor(state, dtype=torch.float)
-            #prediction = self.model(state0)
-            #move = torch.argmax(prediction).item()
-            #final_move[move] = 1
+        if random.randint(0, 200) < self.epsilon:
+           move = random.randint(0, 2)
+           final_move[move] = 1
+        else:
+            state0 = torch.tensor(state, dtype=torch.float)
+            prediction = self.model(state0)
+            move = torch.argmax(prediction).item()
+            final_move[move] = 1
 
         return final_move
 
@@ -161,15 +161,17 @@ class Agent:
 
     def train_long_memory(self):
         # train the agent from batch of data saved in the memory
+        # trained over larger number of samples at the same time
         if len(self.memory) > self.batch_size:
             batch_sample = random.sample(self.memory, self.batch_size)
         else:
             batch_sample = self.memory
 
-        # TODO: train long memory
+        states, actions, rewards, next_states, dones = zip(*batch_sample)
+        self.trainer.train_step(states,actions,rewards,next_states,dones)
 
     def train_short_memory(self, current_state, action, reward, next_state, done):
-        # TODO: train short memory
-        pass
+        # train agent for the batch of data equal to 1
+        self.trainer.train_step(current_state,action,reward,next_state,done)
 
 

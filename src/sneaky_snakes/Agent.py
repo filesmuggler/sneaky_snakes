@@ -92,13 +92,14 @@ class Agent:
             environment:
 
         Returns:
-
+            Boolean list of food position wrt to the snake head
         '''
 
         pt = environment.snake.get_head()
 
         # Check if food nearby
         # TODO: quite limited perception -> widen the perception field
+
         fruit_pos = environment.fruit.get_position()
         food_left = (fruit_pos.x < pt.x)
         food_up = (fruit_pos.y < pt.y)

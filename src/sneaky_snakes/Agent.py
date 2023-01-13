@@ -99,10 +99,11 @@ class Agent:
 
         # Check if food nearby
         # TODO: quite limited perception -> widen the perception field
-        food_left = (environment.fruit.get_position()[0] < pt.x)
-        food_up = (environment.fruit.get_position()[0] > pt.x)
-        food_right = (environment.fruit.get_position()[1] < pt.y)
-        food_down = (environment.fruit.get_position()[1] > pt.y)
+        fruit_pos = environment.fruit.get_position()
+        food_left = (fruit_pos.x < pt.x)
+        food_up = (fruit_pos.y < pt.y)
+        food_right = (fruit_pos.x > pt.x)
+        food_down = (fruit_pos.y > fruit_pos.y)
 
         return [food_left,food_up,food_right,food_down]
 

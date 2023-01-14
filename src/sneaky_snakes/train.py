@@ -7,7 +7,7 @@ from utilities import Direction, Plotter
 MAX_MEM = 100_000
 BATCH_SIZE = 100
 LR = 0.001
-NUM_GAMES = 25
+NUM_GAMES = 2500
 
 def train():
     plot_scores = []
@@ -21,6 +21,7 @@ def train():
         game.reset()
         game_over = False
         episode_score = 0
+        print("Starting new episode no: ",no_ep+1)
         while not game_over:
             # get current state
             old_state = agent.get_state(environment=game)
@@ -42,6 +43,8 @@ def train():
             # TODO: change Direction to [0,0,0] vector
             agent.save_to_memory(current_state=old_state,action=final_move,
                                  reward=reward,next_state=new_state,done=done)
+
+            #print(game.iterations,reward,score,done, final_move,old_state,new_state)
             game_over = done
             if done:
                 # train over batch of memorized values

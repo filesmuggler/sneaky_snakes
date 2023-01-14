@@ -7,8 +7,8 @@ from Table import Table
 from utilities import Direction, ColorPalette, Point
 
 #TODO: remove constants from files other than train.py
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 300
 TICK = 15
 SCALE = 10
 
@@ -18,13 +18,6 @@ class GameAI:
         self.window_width = SCREEN_WIDTH
         self.cp_object = ColorPalette()
         self.cpalette = self.cp_object.get_palette()
-        self.reset()
-
-    def reset(self):
-        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT)
-        self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
-        self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
-        self.scale = SCALE
 
         pygame.init()
         # Initialise game window
@@ -34,10 +27,19 @@ class GameAI:
         # FPS (frames per second) controller
         self.fps = pygame.time.Clock()
 
+        self.reset()
+
+    def reset(self):
+        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT)
+        self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
+        self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
+        self.scale = SCALE
+
+
+
         self.direction = Direction.RIGHT
         self.score = 0
         self.iterations = 0
-
 
     def user_input(self):
         change_to = ''
@@ -73,7 +75,7 @@ class GameAI:
         game_over = False
 
         # 2. move snake
-        self.snake.move(direction=action)
+        self.snake.move(action=action)
 
         # 3. check if got fruit
         if self.check_fruit():

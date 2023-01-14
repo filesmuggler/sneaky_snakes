@@ -31,7 +31,7 @@ class SnakeAI:
         '''
         return Point(self.body[0][0],self.body[0][1])
 
-    def set_direction(self,direction: Direction):
+    def set_direction(self, direction: Direction):
         '''
         Sets direction of the snake
         Args:
@@ -49,26 +49,49 @@ class SnakeAI:
             Direction enum type
         '''
         return self.direction
-    def move(self, direction: Direction):
+    def move(self, action: list[int]):
         '''
         Moves snake's body forward in the given direction
         Args:
-            direction: enum type Direction
+            action: int list [straight, right, left]
 
         Returns:
             void
         '''
 
-        self.set_direction(direction)
+        clock_wise = [Direction.LEFT,Direction.UP,Direction.RIGHT,Direction.DOWN]
+        idx = clock_wise.index(self.direction)
 
-        #moving snake
-        if direction == Direction.UP:
+        # [1,0,0] -> if right, continue right
+        # [0,1,0] > if right, go down
+        # [0,0,1] -> if right, go up
+
+        # calculate ne direction
+        if np.array_equal(action,[1,0,0]):
+            # continue the direction you were going
+            new_direction = self.direction
+        elif np.array_equal(action,[0,1,0]):
+            # go right wrt the direction you were b4
+            cycle_idx = (idx+1)%4
+            new_direction = clock_wise[cycle_idx]
+        elif np.array_equal(action,[0,0,1]):
+            # go left wrt the direction you were b4
+            cycle_idx = (idx - 1) % 4
+            new_direction = clock_wise[cycle_idx]
+        else:
+            print("invalid action. terminating game. action: ",action)
+
+        # SET new direction
+        self.set_direction(direction=new_direction)
+
+        # moving snake
+        if self.direction == Direction.UP:
             self.head[1] -= self.scale
-        if direction == Direction.DOWN:
+        if self.direction == Direction.DOWN:
             self.head[1] += self.scale
-        if direction == Direction.LEFT:
+        if self.direction == Direction.LEFT:
             self.head[0] -= self.scale
-        if direction == Direction.RIGHT:
+        if self.direction == Direction.RIGHT:
             self.head[0] += self.scale
 
 

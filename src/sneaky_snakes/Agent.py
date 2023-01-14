@@ -77,7 +77,6 @@ class Agent:
                  food_left,food_up,food_right,food_down]
         return np.array(state,dtype=int)
 
-
     def get_current_direction(self,environment: GameAI) -> list[bool]:
         dir_left = environment.direction == Direction.LEFT
         dir_up = environment.direction == Direction.UP
@@ -126,13 +125,20 @@ class Agent:
 
         return [pt_left, pt_up, pt_right, pt_down]
 
+    def get_action(self, state) -> list[int]:
+        '''
 
-    def get_action(self, state):
+        Args:
+            state: agent state
+
+        Returns:
+            final_move: [straight,right,left] array of 1s and 0s
+        '''
         '''
         TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
         '''
         self.epsilon = 80 - self.no_games
-        final_move = [0,0,0]
+        final_move = [0,0,0] #[straight,right,left]
         if random.randint(0, 200) < self.epsilon:
            move = random.randint(0, 2)
            final_move[move] = 1

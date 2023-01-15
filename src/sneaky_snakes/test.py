@@ -7,10 +7,10 @@ from utilities import Direction, Plotter
 MAX_MEM = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
-NUM_GAMES = 10
+NUM_GAMES = 20
 
 def test():
-    agent = Agent( batch=0,max_mem=0,lr=0,no_episodes=NUM_GAMES,path_to_model="./models/best_model.pt",train=False) # agent
+    agent = Agent( batch=0,max_mem=0,lr=0,no_episodes=NUM_GAMES,path_to_model="./models/best_model_so_far.pt",train=False) # agent
     game = GameAI()
     record_score = 0
 

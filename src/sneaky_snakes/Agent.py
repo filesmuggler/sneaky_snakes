@@ -12,7 +12,7 @@ BATCH_SIZE = 1000
 LR = 0.001
 
 class Agent:
-    def __init__(self, batch: int, max_mem: int, lr: float, no_episodes: int):
+    def __init__(self, batch: int, max_mem: int, lr: float, no_episodes: int, path_to_model: str, train=True):
         '''
         Agent constructor
         Args:
@@ -25,12 +25,16 @@ class Agent:
         self.max_mem = max_mem
         self.lr = lr
         self.no_episodes = no_episodes
+        self.train = train
 
         self.no_games = 0
         self.epsilon = 0
         self.gamma = 0.9
         self.memory = deque(maxlen=self.max_mem)
         self.model = Linear_Net(11, 256, 3)
+        if not self.train:
+            self.model.load_state_dict(torch.load(path_to_model))
+            self.model.eval()
         self.trainer = DQN_Trainer(self.model,lr=LR,gamma=self.gamma)
 
     def get_state(self, environment: GameAI) -> np.array:

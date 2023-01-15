@@ -14,7 +14,7 @@ def train():
     plot_mean_scores = []
     total_score = 0
     record_score = 0
-    agent = Agent(batch=BATCH_SIZE,max_mem=MAX_MEM,lr=LR, no_episodes=NUM_GAMES) # agent
+    agent = Agent(batch=BATCH_SIZE,max_mem=MAX_MEM,lr=LR, no_episodes=NUM_GAMES, train=True, path_to_model="") # agent
     game = GameAI()
 
     for no_ep in range(NUM_GAMES):

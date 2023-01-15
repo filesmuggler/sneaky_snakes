@@ -7,10 +7,10 @@ from Table import Table
 from utilities import Direction, ColorPalette, Point
 
 #TODO: remove constants from files other than train.py
-SCREEN_WIDTH = 600
+SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 300
-OFFSET = 200
-TICK = 100
+OFFSET = 0
+TICK = 250
 SCALE = 10
 
 class GameAI:
@@ -97,8 +97,9 @@ class GameAI:
 
         # 5. draw everything
         self.game_window.fill(self.cpalette["black"],rect=(0,0,self.window_width-OFFSET,self.window_height))
-        self.game_window.fill(self.cpalette["yellow"],rect=(self.window_width-OFFSET,0,self.window_width,self.window_height))
-        self.draw_arrow()
+        if OFFSET > 0:
+            self.game_window.fill(self.cpalette["yellow"],rect=(self.window_width-OFFSET,0,self.window_width,self.window_height))
+            self.draw_arrow()
 
         for pos in self.snake.body:
             if pos == self.snake.body[0]:
@@ -161,7 +162,6 @@ class GameAI:
         return direction
 
     def draw_arrow(self):
-
         margin = 30
         f = 3
 

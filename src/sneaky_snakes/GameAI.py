@@ -10,7 +10,7 @@ from utilities import Direction, ColorPalette, Point
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 300
 OFFSET = 200
-TICK = 1
+TICK = 100
 SCALE = 10
 
 class GameAI:
@@ -138,6 +138,8 @@ class GameAI:
         if pt.x < 0 or pt.x > self.game_window.get_size()[0]-OFFSET:
             return True
         elif pt.y < 0 or pt.y > self.game_window.get_size()[1]:
+            return True
+        elif pt in self.snake.body[1:]:
             return True
         else:
             return False

@@ -105,7 +105,7 @@ class Agent:
         food_left = (fruit_pos.x < pt.x)
         food_up = (fruit_pos.y < pt.y)
         food_right = (fruit_pos.x > pt.x)
-        food_down = (fruit_pos.y > fruit_pos.y)
+        food_down = (fruit_pos.y > pt.y)
 
         return [food_left,food_up,food_right,food_down]
 

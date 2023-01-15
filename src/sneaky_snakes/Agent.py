@@ -8,21 +8,23 @@ from models import Linear_Net, DQN_Trainer
 
 #TODO: remove constants from files other than train.py
 MAX_MEM = 100_000
-BATCH_SIZE = 100
+BATCH_SIZE = 1000
 LR = 0.001
 
 class Agent:
-    def __init__(self, batch: int, max_mem: int, lr: float):
+    def __init__(self, batch: int, max_mem: int, lr: float, no_episodes: int):
         '''
         Agent constructor
         Args:
             batch: number of samples to use in one batch training
             max_mem: maximal number of past states stored in the memory of the agent
             lr: learning rate
+            no_episodes: number of learning episodes
         '''
         self.batch_size = batch
         self.max_mem = max_mem
         self.lr = lr
+        self.no_episodes = no_episodes
 
         self.no_games = 0
         self.epsilon = 0
@@ -134,22 +136,24 @@ class Agent:
         Returns:
             final_move: [straight,right,left] array of 1s and 0s
         '''
-        '''
-        TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
-        '''
-        self.epsilon = 80 - self.no_games
+
+        #TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
+        #self.epsilon = float(self.no_episodes - self.no_games)/float(self.no_episodes)
+        self.epsilon = self.no_episodes - self.no_games
+        #print("eps:",self.epsilon)
         final_move = [0,0,0] #[straight,right,left]
-        if random.randint(0, 200) < self.epsilon:
+        if random.randint(0,self.no_episodes) < self.epsilon:
+            # Getting random decision
            move = random.randint(0, 2)
            final_move[move] = 1
         else:
+            # Getting decision from the trained model
             state0 = torch.tensor(state, dtype=torch.float)
             prediction = self.model(state0)
             move = torch.argmax(prediction).item()
             final_move[move] = 1
 
         return final_move
-
 
     def save_to_memory(self, current_state: np.array, action, reward, next_state, done):
         '''

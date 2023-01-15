@@ -7,9 +7,10 @@ from Table import Table
 from utilities import Direction, ColorPalette, Point
 
 #TODO: remove constants from files other than train.py
-SCREEN_WIDTH = 400
+SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 300
-TICK = 15
+OFFSET = 200
+TICK = 1
 SCALE = 10
 
 class GameAI:
@@ -30,12 +31,11 @@ class GameAI:
         self.reset()
 
     def reset(self):
-        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT)
-        self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
-        self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH, window_height=SCREEN_HEIGHT)
         self.scale = SCALE
-
-
+        snake_pos = self.random_position()
+        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT, x=snake_pos[0], y=snake_pos[1])
+        self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH-OFFSET, window_height=SCREEN_HEIGHT)
+        self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH-OFFSET, window_height=SCREEN_HEIGHT)
 
         self.direction = Direction.RIGHT
         self.score = 0
@@ -67,7 +67,7 @@ class GameAI:
 
         return self.direction
 
-    def play_step(self, action: Direction):
+    def play_step(self, action: list[int]):
 
         # 1. setup
         self.iterations += 1
@@ -76,6 +76,7 @@ class GameAI:
 
         # 2. move snake
         self.snake.move(action=action)
+        self.direction = self.snake.get_direction()
 
         # 3. check if got fruit
         if self.check_fruit():
@@ -95,9 +96,16 @@ class GameAI:
             return reward, self.score, game_over
 
         # 5. draw everything
-        self.game_window.fill(self.cpalette["black"])
+        self.game_window.fill(self.cpalette["black"],rect=(0,0,self.window_width-OFFSET,self.window_height))
+        self.game_window.fill(self.cpalette["yellow"],rect=(self.window_width-OFFSET,0,self.window_width,self.window_height))
+        self.draw_arrow()
+
         for pos in self.snake.body:
-            pygame.draw.rect(self.game_window, self.snake.color,
+            if pos == self.snake.body[0]:
+                pygame.draw.rect(self.game_window, self.cpalette['green'],
+                                 pygame.Rect(pos[0], pos[1], self.scale, self.scale))
+            else:
+                pygame.draw.rect(self.game_window, self.snake.color,
                              pygame.Rect(pos[0], pos[1], self.scale, self.scale))
         pygame.draw.rect(self.game_window, self.fruit.color,
                          pygame.Rect(self.fruit.position[0], self.fruit.position[1],
@@ -127,7 +135,7 @@ class GameAI:
         self.fruit.set_position(new_position)
 
     def is_collision(self,pt:Point):
-        if pt.x < 0 or pt.x > self.game_window.get_size()[0]:
+        if pt.x < 0 or pt.x > self.game_window.get_size()[0]-OFFSET:
             return True
         elif pt.y < 0 or pt.y > self.game_window.get_size()[1]:
             return True
@@ -142,11 +150,42 @@ class GameAI:
             return False
 
     def random_position(self) -> list[int]:
-        position = [random.randrange(1, (self.window_width // self.scale)) * self.scale,
+        position = [random.randrange(1, ((self.window_width-OFFSET) // self.scale)) * self.scale,
                     random.randrange(1, (self.window_height // self.scale)) * self.scale]
         return position
 
     def random_direction(self) -> int:
         direction = random.randrange(1,len(Direction)+1)
         return direction
+
+    def draw_arrow(self):
+
+        margin = 30
+        f = 3
+
+        if self.direction == Direction.LEFT:
+            #draw left
+            p0 = [self.window_width - OFFSET + margin/f, self.window_height/4]
+            p1 = [self.window_width - f*margin, margin]
+            p2 = [self.window_width - f*margin, self.window_height / 2 - margin]
+            pygame.draw.polygon(self.game_window, self.cpalette['black'], [p0, p1, p2])
+        if self.direction == Direction.UP:
+            #draw up
+            p0 = [self.window_width-(OFFSET/2),margin/f]
+            p1 = [self.window_width-margin,self.window_height/2-f*margin]
+            p2 = [self.window_width-OFFSET+margin,self.window_height/2-f*margin]
+            pygame.draw.polygon(self.game_window, self.cpalette['black'], [p0,p1,p2])
+        if self.direction == Direction.RIGHT:
+            #draw right
+            p0 = [self.window_width - margin/f, self.window_height/4]
+            p1 = [self.window_width - OFFSET + f*margin, margin]
+            p2 = [self.window_width - OFFSET + f*margin, self.window_height / 2 - margin]
+            pygame.draw.polygon(self.game_window, self.cpalette['black'], [p0, p1, p2])
+        if self.direction == Direction.DOWN:
+            #draw down
+            p0 = [self.window_width - (OFFSET / 2), self.window_height / 2 - margin/f]
+            p1 = [self.window_width - margin, self.window_height/4]
+            p2 = [self.window_width - OFFSET + margin,self.window_height/4]
+            pygame.draw.polygon(self.game_window, self.cpalette['black'], [p0, p1, p2])
+
 

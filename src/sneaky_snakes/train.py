@@ -5,16 +5,16 @@ from GameAI import GameAI
 from utilities import Direction, Plotter
 
 MAX_MEM = 100_000
-BATCH_SIZE = 100
+BATCH_SIZE = 1000
 LR = 0.001
-NUM_GAMES = 2500
+NUM_GAMES = 10000
 
 def train():
     plot_scores = []
     plot_mean_scores = []
     total_score = 0
     record_score = 0
-    agent = Agent(batch=BATCH_SIZE,max_mem=MAX_MEM,lr=LR) # agent
+    agent = Agent(batch=BATCH_SIZE,max_mem=MAX_MEM,lr=LR, no_episodes=NUM_GAMES) # agent
     game = GameAI()
 
     for no_ep in range(NUM_GAMES):

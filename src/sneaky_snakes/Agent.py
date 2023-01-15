@@ -139,10 +139,10 @@ class Agent:
 
         #TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
         #self.epsilon = float(self.no_episodes - self.no_games)/float(self.no_episodes)
-        self.epsilon = self.no_episodes - self.no_games
+        self.epsilon = 80 - self.no_games
         #print("eps:",self.epsilon)
         final_move = [0,0,0] #[straight,right,left]
-        if random.randint(0,self.no_episodes) < self.epsilon:
+        if random.randint(0,160) < self.epsilon:
             # Getting random decision
            move = random.randint(0, 2)
            final_move[move] = 1

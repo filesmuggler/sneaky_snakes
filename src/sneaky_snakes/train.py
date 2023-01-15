@@ -7,7 +7,7 @@ from utilities import Direction, Plotter
 MAX_MEM = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
-NUM_GAMES = 10000
+NUM_GAMES = 100
 
 def train():
     plot_scores = []

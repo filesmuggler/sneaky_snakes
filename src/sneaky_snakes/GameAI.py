@@ -139,7 +139,7 @@ class GameAI:
             return True
         elif pt.y < 0 or pt.y > self.game_window.get_size()[1]:
             return True
-        elif pt in self.snake.body[1:]:
+        elif [pt.x,pt.y] in self.snake.body[1:]:
             return True
         else:
             return False

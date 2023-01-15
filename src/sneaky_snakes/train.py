@@ -7,7 +7,7 @@ from utilities import Direction, Plotter
 MAX_MEM = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
-NUM_GAMES = 100
+NUM_GAMES = 100000
 
 def train():
     plot_scores = []
@@ -27,7 +27,7 @@ def train():
             old_state = agent.get_state(environment=game)
 
             # get move
-            final_move = agent.get_action(state=old_state)
+            final_move = agent.get_action(state=old_state, train=True)
 
             # perform move and get new state
             # TODO: change Direction to [0,0,0] vector

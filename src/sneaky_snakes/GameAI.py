@@ -10,7 +10,7 @@ from utilities import Direction, ColorPalette, Point
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 300
 OFFSET = 0
-TICK = 250
+TICK = 100
 SCALE = 10
 
 class GameAI:

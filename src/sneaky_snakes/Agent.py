@@ -33,6 +33,7 @@ class Agent:
         self.memory = deque(maxlen=self.max_mem)
         self.model = Linear_Net(11, 256, 3)
         if not self.train:
+            print("testing")
             self.model.load_state_dict(torch.load(path_to_model))
             self.model.eval()
         self.trainer = DQN_Trainer(self.model,lr=LR,gamma=self.gamma)
@@ -131,7 +132,7 @@ class Agent:
 
         return [pt_left, pt_up, pt_right, pt_down]
 
-    def get_action(self, state) -> list[int]:
+    def get_action(self, state:list[int],train:bool) -> list[int]:
         '''
 
         Args:
@@ -140,16 +141,23 @@ class Agent:
         Returns:
             final_move: [straight,right,left] array of 1s and 0s
         '''
+        final_move = [0, 0, 0]  # [straight,right,left]
+        if train:
+            #TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
+            #self.epsilon = float(self.no_episodes - self.no_games)/float(self.no_episodes)
+            self.epsilon = 80 - self.no_games
+            #print("eps:",self.epsilon)
 
-        #TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
-        #self.epsilon = float(self.no_episodes - self.no_games)/float(self.no_episodes)
-        self.epsilon = 80 - self.no_games
-        #print("eps:",self.epsilon)
-        final_move = [0,0,0] #[straight,right,left]
-        if random.randint(0,200) < self.epsilon:
-            # Getting random decision
-           move = random.randint(0, 2)
-           final_move[move] = 1
+            if random.randint(0,200) < self.epsilon:
+                # Getting random decision
+               move = random.randint(0, 2)
+               final_move[move] = 1
+            else:
+                # Getting decision from the trained model
+                state0 = torch.tensor(state, dtype=torch.float)
+                prediction = self.model(state0)
+                move = torch.argmax(prediction).item()
+                final_move[move] = 1
         else:
             # Getting decision from the trained model
             state0 = torch.tensor(state, dtype=torch.float)

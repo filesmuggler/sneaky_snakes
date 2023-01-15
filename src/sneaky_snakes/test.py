@@ -10,7 +10,7 @@ LR = 0.001
 NUM_GAMES = 10
 
 def test():
-    agent = Agent( batch=0,max_mem=0,lr=0,no_episodes=NUM_GAMES,path_to_model="./models/best_model_100g.pt",train=False) # agent
+    agent = Agent( batch=0,max_mem=0,lr=0,no_episodes=NUM_GAMES,path_to_model="./models/best_model.pt",train=False) # agent
     game = GameAI()
     record_score = 0
 
@@ -23,7 +23,7 @@ def test():
             old_state = agent.get_state(environment=game)
 
             # get move
-            final_move = agent.get_action(state=old_state)
+            final_move = agent.get_action(state=old_state, train=False)
 
             # perform move and get new state
             reward, score, done = game.play_step(action=final_move)
@@ -31,7 +31,9 @@ def test():
 
             game_over = done
             if done:
-                # train over batch of memorized values
+                if score > record_score:
+                    record_score = score
+
                 agent.no_games += 1
                 print('Game ',agent.no_games, ', score ',score,', record ',record_score)
 

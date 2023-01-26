@@ -6,7 +6,7 @@ import os
 
 class Linear_Net(nn.Module):
     '''
-    Linear model implementation
+    Linear model implementation of MLP with two layers
     '''
     def __init__(self,input_size: int, hidden_size: int,output_size: int):
         super().__init__()
@@ -14,11 +14,27 @@ class Linear_Net(nn.Module):
         self.linear_layer_2 = nn.Linear(hidden_size,output_size)
 
     def forward(self,x):
+        '''
+        Function for forwarding the training and inference
+        Args:
+            x: input data of size input_size
+
+        Returns:
+            returns output from the network
+        '''
         x = F.relu(self.linear_layer_1(x))
         x = self.linear_layer_2(x)
         return x
 
     def save(self,file_name):
+        '''
+        Saves models to the directory
+        Args:
+            file_name: chosen name of the model
+
+        Returns:
+            Void
+        '''
         model_folder_path = './models'
         if not os.path.exists(model_folder_path):
             os.makedirs(model_folder_path)
@@ -27,14 +43,29 @@ class Linear_Net(nn.Module):
         torch.save(self.state_dict(),file_name)
 
 class DQN_Trainer:
+    '''
+    Training class implementing DQN algorithm as input for MSE loss function
+    '''
     def __init__(self, model: Linear_Net, lr: float, gamma: float):
-        self.lr = lr
-        self.gamma = gamma
-        self.model = model
-        self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
-        self.criterion = nn.MSELoss()
+        self.lr = lr            # learning rate
+        self.gamma = gamma      # discount factor
+        self.model = model      # model for training
+        self.optimizer = optim.Adam(model.parameters(), lr=self.lr)     # model optimizer
+        self.criterion = nn.MSELoss()       # loss function
 
     def train_step(self, state, action, reward, next_state, done: bool):
+        '''
+        Training step every iteration
+        Args:
+            state:
+            action:
+            reward:
+            next_state:
+            done:
+
+        Returns:
+
+        '''
         state = torch.tensor(state, dtype=torch.float)
         next_state = torch.tensor(next_state, dtype=torch.float)
         action = torch.tensor(action,dtype=torch.long)

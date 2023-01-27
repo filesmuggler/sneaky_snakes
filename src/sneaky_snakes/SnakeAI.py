@@ -94,7 +94,6 @@ class SnakeAI:
         if self.direction == Direction.RIGHT:
             self.head[0] += self.scale
 
-
     def cut_tail(self):
         '''
         Keeps the size of the snake the same as iteration before

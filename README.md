@@ -21,7 +21,7 @@
 
 ### Neural net model
 
-<img src="./src/docs/LinearNet.png" height="400">
+<img src="./src/docs/LinearNet.png" height="200">
 
 ### Deep Q-Learning (DQN)
 

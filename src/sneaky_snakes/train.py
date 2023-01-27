@@ -20,7 +20,6 @@ def train():
     for no_ep in range(NUM_GAMES):
         game.reset()
         game_over = False
-        episode_score = 0
         print("Starting new episode no: ",no_ep+1)
         while not game_over:
             # get current state
@@ -30,22 +29,17 @@ def train():
             final_move = agent.get_action(state=old_state, train=True)
 
             # perform move and get new state
-            # TODO: change Direction to [0,0,0] vector
             reward, score, done = game.play_step(action=final_move)
             new_state = agent.get_state(environment=game)
 
             # train short memory
-            # TODO: change Direction to [0,0,0] vector
             agent.train_short_memory(current_state=old_state,action=final_move,
                                      reward=reward,next_state=new_state,done=done)
-
             # remember
-            # TODO: change Direction to [0,0,0] vector
             agent.save_to_memory(current_state=old_state,action=final_move,
                                  reward=reward,next_state=new_state,done=done)
 
-            #print(game.iterations,reward,score,done, final_move,old_state,new_state)
-            game_over = done
+            game_over = done    # check if game is over
             if done:
                 # train over batch of memorized values
                 agent.no_games += 1

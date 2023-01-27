@@ -85,6 +85,14 @@ class Agent:
         return np.array(state,dtype=int)
 
     def get_current_direction(self,environment: GameAI) -> list[bool]:
+        '''
+        Translates Direction object into boolean list of clockwise from left
+        Args:
+            environment: GameAi object
+
+        Returns:
+            [dir_left,dir_up,dir_right,dir_down]: boolean list
+        '''
         dir_left = environment.direction == Direction.LEFT
         dir_up = environment.direction == Direction.UP
         dir_right = environment.direction == Direction.RIGHT
@@ -95,10 +103,10 @@ class Agent:
         '''
             Checks food proximity in clockwise direction starting from LEFT
         Args:
-            environment:
+            environment: GameAi object
 
         Returns:
-            Boolean list of food position wrt to the snake head
+            [food_left,food_up,food_right,food_down]: boolean list of food position wrt to the snake head
         '''
 
         pt = environment.snake.get_head()
@@ -116,12 +124,12 @@ class Agent:
 
     def get_surround(self, environment: GameAI) -> list[Point]:
         '''
-            Calculates points in the clockwise direction starting from LEFT
+            Calculates points around the agent in the clockwise direction starting from LEFT
         Args:
-            environment:
+            environment: GameAi object
 
         Returns:
-
+            [pt_left, pt_up, pt_right, pt_down]: list of points in clockwise direction
         '''
         scale = environment.scale
         pt = environment.snake.get_head()
@@ -134,7 +142,8 @@ class Agent:
 
     def get_action(self, state:list[int],train:bool) -> list[int]:
         '''
-
+            train: returns the next action given the epilon value (exploration/exploitation rate)
+            test: returns next action according to the model's output
         Args:
             state: agent state
 
@@ -144,9 +153,7 @@ class Agent:
         final_move = [0, 0, 0]  # [straight,right,left]
         if train:
             #TODO: provide better epsilon estimation throughout the learning possibly rational function 1/(1+no_games)
-            #self.epsilon = float(self.no_episodes - self.no_games)/float(self.no_episodes)
             self.epsilon = 80 - self.no_games
-            #print("eps:",self.epsilon)
 
             if random.randint(0,200) < self.epsilon:
                 # Getting random decision
@@ -167,7 +174,7 @@ class Agent:
 
         return final_move
 
-    def save_to_memory(self, current_state: np.array, action, reward, next_state, done):
+    def save_to_memory(self, current_state: np.array, action, reward, next_state: np.array, done):
         '''
         Saves set of states, action, reward and status of the iteration to the memory
         Args:
@@ -184,6 +191,11 @@ class Agent:
         self.memory.append(data_tuple)
 
     def train_long_memory(self):
+        '''
+        Trains agent over the batch of saved states, actions and rewards
+        Returns:
+            void
+        '''
         # train the agent from batch of data saved in the memory
         # trained over larger number of samples at the same time
         if len(self.memory) > self.batch_size:
@@ -194,7 +206,19 @@ class Agent:
         states, actions, rewards, next_states, dones = zip(*batch_sample)
         self.trainer.train_step(states,actions,rewards,next_states,dones)
 
-    def train_short_memory(self, current_state, action, reward, next_state, done):
+    def train_short_memory(self, current_state: np.array, action: list[int], reward, next_state: np.array, done):
+        '''
+        Trains over a single set of states, rewards and actions
+        Args:
+            current_state:
+            action:
+            reward:
+            next_state:
+            done:
+
+        Returns:
+
+        '''
         # train agent for the batch of data equal to 1
         self.trainer.train_step(current_state,action,reward,next_state,done)
 

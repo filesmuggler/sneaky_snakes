@@ -19,11 +19,17 @@ rewarded or punished in the process of learning. In our case the agent is
 replacing the human player in the process of controlling the snake.
 #### _Environment_
 The environment consists the table, the apple and the snake. 
+They provide the information about current state and rewards for the actions
+taken by the agent
+
+![table](./src/docs/snake_diagram.jpg)
 
 #### _Action_
-
+The action is taken by the agent and is affecting the environment. 
 #### _Reward_
-
+The reward is assigned based on the performance of the agent in the environment. 
+The agent gets positive reward for getting the apple and negative for hitting walls/himself
+or exceeding the time intended for exploration.
 
 ## Perception
 
@@ -31,6 +37,7 @@ The agent is able to _sniff_ food in 4 main directions - left,up,right,down.
 Sniffing is based on position of the fruit obtained from the game environment and
 projected as boolean list of directions.
 
+![perception](./src/docs/perception.png)
 
 
 

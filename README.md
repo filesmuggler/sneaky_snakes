@@ -39,16 +39,21 @@ projected as boolean list of directions.
 
 ![perception](./src/docs/perception.png)
 
-
+## The Game
 
 ## The Agent
+
+Configurable parameters:
+- _MAX_MEM_
+- _BATCH_SIZE_
+- _LR_
 
 ## Training
 
 ### Neural net model
 
 Used model is fully connected network built of two linear layers.<br>
-<img src="./src/docs/LinearNet.png" height="200">
+<img src="./src/docs/LinearNet.png" height="400">
 
 ### Deep Q-Learning (DQN)
 

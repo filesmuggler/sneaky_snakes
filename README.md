@@ -10,6 +10,8 @@
 ## Background
 ### Reinforcement learning basics
 
+![diagram](./src/docs/reinforcement.jpg)
+
 #### _Agent_
 
 #### _Environment_

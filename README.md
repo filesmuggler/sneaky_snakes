@@ -6,7 +6,6 @@
 ![snake1](./src/docs/snake2_small.gif)
 ![snake1](./src/docs/snake3_small.gif)
 ![snake1](./src/docs/snake4_small.gif)
-![snake1](./src/docs/snake5_small.gif)
 
 ## Background
 ### Reinforcement learning basics

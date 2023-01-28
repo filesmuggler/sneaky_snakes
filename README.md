@@ -13,8 +13,12 @@
 ![diagram](./src/docs/reinforcement.jpg)
 
 #### _Agent_
-
+The agent is an entity that can enforce actions on the environment 
+and observe changes in it. According to the actions it takes, it is 
+rewarded or punished in the process of learning. In our case the agent is 
+replacing the human player in the process of controlling the snake.
 #### _Environment_
+The environment consists the table, the apple and the snake. 
 
 #### _Action_
 

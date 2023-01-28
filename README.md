@@ -21,6 +21,7 @@
 
 ### Neural net model
 
+Used model is fully connected network built of two linear layers.<br>
 <img src="./src/docs/LinearNet.png" height="200">
 
 ### Deep Q-Learning (DQN)

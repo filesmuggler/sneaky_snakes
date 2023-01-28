@@ -7,10 +7,10 @@ from Table import Table
 from utilities import Direction, ColorPalette, Point
 
 #TODO: remove constants from files other than train.py
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 300
 OFFSET = 0
-TICK = 500
+TICK = 50
 SCALE = 10
 
 class GameAI:

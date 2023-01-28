@@ -1,7 +1,10 @@
-# Smart snake
+# Reinforcement learning with snake in pygame
 ![python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 ![pytorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
 
+![snake1](./src/docs/snake1.gif)
+![snake1](./src/docs/snake2.gif)
+![snake1](./src/docs/snake3.gif)
 
 ## Background
 ### Reinforcement learning basics
@@ -15,9 +18,18 @@
 #### _Reward_
 
 
-### Perception
+## Perception
 
-### The Agent
+The agent is able to _sniff_ food in 4 main directions - left,up,right,down.
+Sniffing is based on position of the fruit obtained from the game environment and
+projected as boolean list of directions.
+
+
+
+
+## The Agent
+
+## Training
 
 ### Neural net model
 
@@ -25,6 +37,9 @@ Used model is fully connected network built of two linear layers.<br>
 <img src="./src/docs/LinearNet.png" height="200">
 
 ### Deep Q-Learning (DQN)
+
+
+## Testing
 
 
 

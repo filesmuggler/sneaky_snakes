@@ -68,6 +68,11 @@ or exceeding the time intended for exploration.
 
 ## Training
 
+Create virtual environment in Python
+```shell
+
+```
+
 ### Neural net model
 
 Used model is fully connected network built of two linear layers.<br>
@@ -78,6 +83,10 @@ Used model is fully connected network built of two linear layers.<br>
 
 ## Testing
 
+Run command:
+```shell
+
+```
 
 
 ## Bibliography

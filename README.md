@@ -4,7 +4,7 @@
 [![pygame](https://img.shields.io/badge/PyGame-00FF00?style=for-the-badge)](https://www.pygame.org/news)
 [![pytorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![numpy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org/)
-[![matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)](https://matplotlib.org/)
+[![matplotlib](https://img.shields.io/badge/Matplotlib-%23b0b0b0.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)](https://matplotlib.org/)
 
 ![snake1](./src/docs/snake1_small.gif)
 ![snake1](./src/docs/snake2_small.gif)

@@ -71,7 +71,7 @@ or exceeding the time intended for exploration.
 ## Neural net model
 
 Used model is fully connected network built of two linear layers.<br>
-![net](./docs/images/LinearNet.png)
+![net](docs/images/LinearNet.png)
 
 ## Deep Q-Learning (DQN)
 

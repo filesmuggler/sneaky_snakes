@@ -75,7 +75,13 @@ Used model is fully connected network built of two linear layers.<br>
 
 ## Deep Q-Learning (DQN)
 
-_TBD_
+The Deep Q-Learning is using a neural network, in our case a fully connected one, 
+to approximate, given a state, the different Q-values for each possible action at that state. 
+We use `DQN_Trainer` to train the agent with Q-value estimation. We create a loss function 
+that compares our Q-value prediction for given state and the Q-target, which is the output of
+the model in this case.
+
+_See more at [HuggingFace tutorial](https://huggingface.co/deep-rl-course/unit3/deep-q-network?fw=pt)_
 
 ## Play around
 

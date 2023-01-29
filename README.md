@@ -69,27 +69,46 @@ The agent gets positive reward for getting the apple and negative for hitting wa
 or exceeding the time intended for exploration.
 
 
-
-## Training
-
-Create virtual environment in Python
-```shell
-
-```
-
-### Neural net model
+## Neural net model
 
 Used model is fully connected network built of two linear layers.<br>
 <img src="./src/docs/LinearNet.png" height="400">
 
-### Deep Q-Learning (DQN)
+## Deep Q-Learning (DQN)
+
+## Play around
+
+### Prepare python environment
+Clone repository: 
+```shell
+cd ~/
+git clone https://github.com/filesmuggler/sneaky_snakes.git
+```
+Create and activate virtual environment in Python
+```shell
+cd sneaky_snakes
+python3 -m venv ./snake_env
+source ./snake_env/bin/activate
+```
+Install packages from requirements into the virtual environment
+```shell
+python -m pip install -r requirements.txt
+```
+
+## Training
+
+Run command:
+```shell
+python train.py 
+```
+
 
 
 ## Testing
 
 Run command:
 ```shell
-
+python test.py 
 ```
 
 

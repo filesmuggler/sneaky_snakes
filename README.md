@@ -7,31 +7,24 @@
 ![snake1](./src/docs/snake3_small.gif)
 ![snake1](./src/docs/snake4_small.gif)
 
-## Background
-### Reinforcement learning basics
+## RL building blocks
 
 ![diagram](./src/docs/reinforcement.jpg)
 
-#### _Agent_
+### Agent
 The agent is an entity that can enforce actions on the environment 
 and observe changes in it. According to the actions it takes, it is 
-rewarded or punished in the process of learning. In our case the agent is 
-replacing the human player in the process of controlling the snake.
-#### _Environment_
-The environment consists the table, the apple and the snake. 
-They provide the information about current state and rewards for the actions
-taken by the agent
+rewarded or punished in the process of training. It's learning itself
+through trial and error and receives rewards as unique feedback. 
+In our case the agent is replacing the human player in the process 
+of controlling the snake.
 
-![table](./src/docs/snake_diagram.jpg)
+Configurable parameters:
+- _MAX_MEM_ - maximal number of sets of states stored for the training
+- _BATCH_SIZE_ - size of single batch to train on
+- _LR_ - learning rate
 
-#### _Action_
-The action is taken by the agent and is affecting the environment. 
-#### _Reward_
-The reward is assigned based on the performance of the agent in the environment. 
-The agent gets positive reward for getting the apple and negative for hitting walls/himself
-or exceeding the time intended for exploration.
-
-## Perception
+#### _Perception_
 
 The agent is able to _sniff_ food in 4 main directions - left,up,right,down.
 Sniffing is based on position of the fruit obtained from the game environment and
@@ -39,14 +32,39 @@ projected as boolean list of directions.
 
 ![perception](./src/docs/perception.png)
 
-## The Game
-
-## The Agent
+### Environment
+The environment consists the table, the apple and the snake. 
+They provide the information about current state and rewards for the actions
+taken by the agent. In our case the environment is represented by following classes: 
+`GameAI`, `SnakeAI`, `Fruit` and `Table`. The input for environment is agent's action 
+and the outputs are observation and reward for the step or set of steps.
 
 Configurable parameters:
-- _MAX_MEM_
-- _BATCH_SIZE_
-- _LR_
+- _SCREEN_WIDTH_ - table width
+- _SCREEN_HEIGHT_ - table height
+- _TICK_ - how fast should the snake move
+- _SCALE_ - how wide the snake should be
+
+![table](./src/docs/snake_diagram.jpg)
+
+### Action
+The action is taken by the agent and is affecting the environment, 
+more specifically the snake's next move. In our case action is represented as 
+a list of 0's and 1's according to the following schema: `[straight, right, left]`.
+
+![direction](./src/docs/direction.jpg)
+
+Example:
+- `[1,0,0]` means go straight wrt to the snake's head direction (choosing <span style="color:purple">purple</span> arrow)
+- `[0,1,0]` means go straight wrt to the snake's head direction (choosing <span style="color:orange">orange</span> arrow)
+- `[0,0,1]` means go straight wrt to the snake's head direction (choosing <span style="color:cyan">cyan</span> arrow)
+
+### Reward
+The reward is assigned based on the performance of the agent in the environment. 
+The agent gets positive reward for getting the apple and negative for hitting walls/himself
+or exceeding the time intended for exploration.
+
+
 
 ## Training
 

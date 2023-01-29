@@ -1,6 +1,8 @@
 import pygame
 import random
 
+from utilities import Point
+
 class Fruit:
     def __init__(self, color: pygame.Color, 
                  window_width: int, window_height: int,
@@ -19,3 +21,6 @@ class Fruit:
     def set_position(self,position: list) -> None:
         self.position = position
         return None
+
+    def get_position(self):
+        return Point(self.position[0],self.position[1])

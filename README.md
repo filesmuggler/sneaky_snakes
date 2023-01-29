@@ -6,14 +6,14 @@
 [![numpy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org/)
 [![matplotlib](https://img.shields.io/badge/Matplotlib-%23b0b0b0.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)](https://matplotlib.org/)
 
-![snake1](docs/snake1_small.gif)
-![snake1](docs/snake2_small.gif)
-![snake1](docs/snake3_small.gif)
-![snake1](docs/snake4_small.gif)
+![snake1](docs/images/snake1_small.gif)
+![snake1](docs/images/snake2_small.gif)
+![snake1](docs/images/snake3_small.gif)
+![snake1](docs/images/snake4_small.gif)
 
 ## RL building blocks
 
-![diagram](docs/reinforcement.jpg)
+![diagram](docs/images/reinforcement.jpg)
 
 ### Agent
 The agent is an entity that can enforce actions on the environment 
@@ -34,7 +34,7 @@ The agent is able to _sniff_ food in 4 main directions - left,up,right,down.
 Sniffing is based on position of the fruit obtained from the game environment and
 projected as boolean list of directions.
 
-![perception](docs/perception.png)
+![perception](docs/images/perception.png)
 
 ### Environment
 The environment consists the table, the apple and the snake. 
@@ -49,14 +49,14 @@ Configurable parameters:
 - _TICK_ - how fast should the snake move
 - _SCALE_ - how wide the snake should be
 
-![table](docs/snake_diagram.jpg)
+![table](docs/images/snake_diagram.jpg)
 
 ### Action
 The action is taken by the agent and is affecting the environment, 
 more specifically the snake's next move. In our case action is represented as 
 a list of 0's and 1's according to the following schema: `[straight, right, left]`.
 
-![direction](docs/direction.jpg)
+![direction](docs/images/direction.jpg)
 
 Example:
 - `[1,0,0]` means go straight wrt to the snake's head direction (choosing <span style="color:purple">purple</span> arrow)

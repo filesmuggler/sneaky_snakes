@@ -6,24 +6,20 @@ from Fruit import Fruit
 from Table import Table
 from utilities import Direction, ColorPalette, Point
 
-#TODO: remove constants from files other than train.py
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 300
-OFFSET = 0
-TICK = 50
-SCALE = 10
-
 class GameAI:
-    def __init__(self):
-        self.window_height = SCREEN_HEIGHT
-        self.window_width = SCREEN_WIDTH
+    def __init__(self, screen_width: int, screen_height: int, tick: int, scale: int, offset=0):
+        self.window_height = screen_height
+        self.window_width = screen_width
         self.cp_object = ColorPalette()
         self.cpalette = self.cp_object.get_palette()
+        self.scale = scale
+        self.tick = tick
+        self.offset = offset
 
         pygame.init()
         # Initialise game window
         pygame.display.set_caption('Sneaky Snakes')
-        self.game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.game_window = pygame.display.set_mode((self.window_width, self.window_height))
 
         # FPS (frames per second) controller
         self.fps = pygame.time.Clock()
@@ -31,11 +27,10 @@ class GameAI:
         self.reset()
 
     def reset(self):
-        self.scale = SCALE
         snake_pos = self.random_position()
-        self.snake = SnakeAI(color=self.cpalette["white"], tick=TICK, direction=Direction.RIGHT, x=snake_pos[0], y=snake_pos[1])
-        self.fruit = Fruit(color=self.cpalette["red"], window_width=SCREEN_WIDTH-OFFSET, window_height=SCREEN_HEIGHT)
-        self.table = Table(color=self.cpalette["black"], window_width=SCREEN_WIDTH-OFFSET, window_height=SCREEN_HEIGHT)
+        self.snake = SnakeAI(color=self.cpalette["white"], tick=self.tick, direction=Direction.RIGHT, x=snake_pos[0], y=snake_pos[1])
+        self.fruit = Fruit(color=self.cpalette["red"], window_width=self.window_width-self.offset, window_height=self.window_height)
+        self.table = Table(color=self.cpalette["black"], window_width=self.window_width-self.offset, window_height=self.window_height)
 
         self.direction = Direction.RIGHT
         self.score = 0
@@ -96,9 +91,9 @@ class GameAI:
             return reward, self.score, game_over
 
         # 5. draw everything
-        self.game_window.fill(self.cpalette["black"],rect=(0,0,self.window_width-OFFSET,self.window_height))
-        if OFFSET > 0:
-            self.game_window.fill(self.cpalette["yellow"],rect=(self.window_width-OFFSET,0,self.window_width,self.window_height))
+        self.game_window.fill(self.cpalette["black"],rect=(0,0,self.window_width-self.offset,self.window_height))
+        if self.offset > 0:
+            self.game_window.fill(self.cpalette["yellow"],rect=(self.window_width-self.offset,0,self.window_width,self.window_height))
             self.draw_arrow()
 
         for pos in self.snake.body:
@@ -117,7 +112,7 @@ class GameAI:
 
         # 7. update pygame window
         pygame.display.update()
-        self.fps.tick(TICK)
+        self.fps.tick(self.tick)
 
         # 8. return
         return reward, self.score, game_over
@@ -136,7 +131,7 @@ class GameAI:
         self.fruit.set_position(new_position)
 
     def is_collision(self,pt:Point):
-        if pt.x < 0 or pt.x > self.game_window.get_size()[0]-OFFSET:
+        if pt.x < 0 or pt.x > self.game_window.get_size()[0]-self.offset:
             return True
         elif pt.y < 0 or pt.y > self.game_window.get_size()[1]:
             return True
@@ -153,7 +148,7 @@ class GameAI:
             return False
 
     def random_position(self) -> list[int]:
-        position = [random.randrange(1, ((self.window_width-OFFSET) // self.scale)) * self.scale,
+        position = [random.randrange(1, ((self.window_width-self.offset) // self.scale)) * self.scale,
                     random.randrange(1, (self.window_height // self.scale)) * self.scale]
         return position
 

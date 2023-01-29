@@ -99,14 +99,14 @@ python3 -m pip install -r requirements.txt
 
 Run command:
 ```shell
-python train.py 
+python train.py --learning_rate 0.001 --max_mem 100000 --num_games 1000 --batch_size 1000 --width 400 --height 300 --tick 250 --scale 10
 ```
 
 ## Testing
 
 Run command:
 ```shell
-python test.py 
+python test.py --model_path "./models/best_model_so_far.pt" --num_games 10 --width 400 --height 300 --tick 10 --scale 10
 ```
 
 

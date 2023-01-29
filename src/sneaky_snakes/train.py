@@ -1,21 +1,27 @@
-import random
-import pygame
+import argparse
+
 from Agent import Agent
 from GameAI import GameAI
-from utilities import Direction, Plotter
+from utilities import Plotter
 
-MAX_MEM = 100_000
-BATCH_SIZE = 1000
-LR = 0.001
-NUM_GAMES = 1000
-
-def train():
+def train(**args):
     plot_scores = []
     plot_mean_scores = []
+
+    args = args['args']
+    LR = float(args.learning_rate)
+    MAX_MEM = int(args.max_mem)
+    NUM_GAMES = int(args.num_games)
+    BATCH_SIZE = int(args.batch_size)
+    SCREEN_WIDTH = int(args.width)
+    SCREEN_HEIGHT = int(args.height)
+    TICK = int(args.tick)
+    SCALE = int(args.scale)
+
     total_score = 0
     record_score = 0
     agent = Agent(batch=BATCH_SIZE,max_mem=MAX_MEM,lr=LR, no_episodes=NUM_GAMES, train=True, path_to_model="") # agent
-    game = GameAI()
+    game = GameAI(screen_width=SCREEN_WIDTH,screen_height=SCREEN_HEIGHT, tick=TICK, scale=SCALE) # game
 
     for no_ep in range(NUM_GAMES):
         game.reset()
@@ -62,5 +68,18 @@ def train():
 
 
 if __name__ == '__main__':
-   train()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-vv", "--version", help="show program version", action="store_true")
+    parser.add_argument("-mm", "--max_mem", help="maximal number of sets of states stored for the training")
+    parser.add_argument("-bs", "--batch_size", help="size of single batch to train on")
+    parser.add_argument("-lr", "--learning_rate", help="learning rate")
+    parser.add_argument("-ng", "--num_games", help="number of games")
+    parser.add_argument("-tw", "--width", help="table width", )
+    parser.add_argument("-th", "--height", help="table height")
+    parser.add_argument("-tk", "--tick", help="how fast should the snake move")
+    parser.add_argument("-sc", "--scale", help="how wide the snake should be")
+
+    args = parser.parse_args()
+
+    train(args=args)
 

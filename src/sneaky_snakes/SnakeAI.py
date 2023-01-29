@@ -1,5 +1,4 @@
 import pygame
-import random
 from utilities import Direction, Point
 import numpy as np
 

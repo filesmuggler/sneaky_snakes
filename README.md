@@ -92,7 +92,7 @@ source ./snake_env/bin/activate
 ```
 Install packages from requirements into the virtual environment
 ```shell
-python -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 ## Training
@@ -101,8 +101,6 @@ Run command:
 ```shell
 python train.py 
 ```
-
-
 
 ## Testing
 

@@ -68,13 +68,14 @@ The reward is assigned based on the performance of the agent in the environment.
 The agent gets positive reward for getting the apple and negative for hitting walls/himself
 or exceeding the time intended for exploration.
 
-
 ## Neural net model
 
 Used model is fully connected network built of two linear layers.<br>
 <img src="./src/docs/LinearNet.png" height="400">
 
 ## Deep Q-Learning (DQN)
+
+_TBD_
 
 ## Play around
 
@@ -101,6 +102,8 @@ Run command:
 ```shell
 python train.py --learning_rate 0.001 --max_mem 100000 --num_games 1000 --batch_size 1000 --width 400 --height 300 --tick 250 --scale 10
 ```
+
+The model will be saved at the end of the session into the `models` directory.
 
 ## Testing
 
